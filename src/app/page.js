@@ -1,101 +1,173 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+
+// Daftar pujian romantis
+const compliments = [
+  "Senyummu bisa bikin hari ku lebih cerah! ☀️",
+  "Kamu itu definisi keindahan yang nggak bisa dijelaskan dengan kata-kata. 💖",
+  "Percaya diri aja, karena kamu luar biasa! 🔥",
+  "Dunia lebih baik karena ada kamu di dalamnya. 🌍",
+  "Kamu punya aura positif yang bikin orang nyaman di dekatmu. 😊",
+  "Kamu berbakat dan lebih hebat dari yang kamu kira! 🎨",
+  "Setiap kali aku melihatmu, semuanya terasa spesial. ✨",
+  "Kamu seperti kopi pagi, bikin semangat! ☕",
+  "Gaya kamu selalu keren dan unik, tetaplah jadi diri sendiri! 💃",
+  "Jangan lupa kalau kamu itu spesial, lebih dari yang kamu bayangkan! 🌟",
+  "Kamu itu magnet kebahagiaan, aku senang berada di dekatmu. 💕",
+  "Kamu memiliki hati yang penuh kasih, itu yang membuatmu begitu luar biasa. ❤️",
+  "Bicaramu selalu menyenangkan, aku bisa mendengarnya sepanjang hari. 🎶",
+  "Kamu bikin dunia ini lebih indah hanya dengan menjadi dirimu sendiri. 🌷",
+  "Senyummu lebih berharga dari semua berlian di dunia. 💎",
+  "Kamu seperti sinar matahari setelah hujan, selalu membawa kehangatan. ☀️",
+  "Ketulusanmu itu sesuatu yang jarang ditemukan, itu membuatmu sangat spesial. 🌸",
+  "Kamu itu seperti lagu favoritku, bikin nyaman dan selalu ingin kuulangi. 🎵",
+  "Kamu punya bakat luar biasa yang patut dibanggakan! 🌟",
+  "Aku yakin kamu bisa mencapai semua impianmu karena kamu orang yang hebat! 🚀",
+  "Setiap kali aku berbicara denganmu, rasanya seperti membaca buku favoritku. 📖",
+  "Kamu menginspirasi banyak orang, termasuk aku. 💡",
+  "Kamu adalah alasan aku tersenyum hari ini. 😊",
+  "Caramu berbicara penuh dengan ketulusan, itu yang membuatmu spesial. 🥰",
+  "Dari sekian banyak orang di dunia ini, kamu salah satu yang paling unik dan luar biasa. 🌏",
+  "Aku yakin jika dunia punya lebih banyak orang sepertimu, tempat ini akan lebih indah. 🌍",
+  "Ketulusanmu lebih berharga dari emas atau perak. 🏆",
+  "Matamu itu seperti bintang di langit malam, bersinar dan menenangkan. ✨",
+  "Kamu adalah paket komplit: cantik, lucu, dan baik hati. 🎁",
+  "Kamu adalah definisi dari kecantikan sejati, luar dan dalam. 💖",
+  "Orang-orang yang mengenalmu adalah orang yang beruntung. 🍀",
+  "Aku suka caramu melihat dunia, begitu penuh dengan keindahan dan harapan. 🌅",
+  "Kamu seperti pelangi setelah hujan, penuh warna dan menghidupkan suasana. 🌈",
+  "Setiap kali kamu ada, semuanya terasa lebih baik. 🎇",
+  "Aku yakin kamu bisa mencapai apapun yang kamu inginkan. 💪",
+  "Kebaikanmu adalah hal yang paling indah darimu. 💕",
+  "Kamu memiliki aura yang membuat aku merasa nyaman di sekitarmu. 🌿",
+  "Ketulusanmu lebih berharga dari apapun di dunia ini. 💎",
+  "Caramu berpikir unik, dan itu yang membuatmu istimewa. 🧩",
+  "Aku tidak tahu apa yang dunia ini lakukan sebelum kamu ada. 😄",
+  "Kamu adalah sumber inspirasi bagi banyak orang. 🌠",
+  "Kamu membawa kedamaian ke dalam hidup orang lain, termasuk aku. ☮️",
+  "Aku harap kamu tahu betapa berharganya kamu bagi orang-orang di sekitarmu. 💙",
+  "Jangan pernah ragu, karena kamu lebih kuat dari yang kamu bayangkan. 🔥",
+  "Senyummu adalah sihir yang bisa membuat hari aku lebih baik. 🪄",
+  "Kamu adalah keindahan yang tak ternilai harganya. 💐",
+  "Tak peduli seberapa sulit hariku, Komunikasi denganmu selalu membuatku lebih baik. 💬",
+  "Kamu punya cara unik untuk membuat dunia ini lebih indah. 🎨",
+  "Kamu tidak hanya cantik dari luar, tapi juga dari dalam. 🥰",
+  "Setiap detik bersamamu terasa seperti hadiah. 🎁",
+];
+
+const gifs = [
+  "https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif",
+  "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+  "https://media.giphy.com/media/v6aOjy0Qo1fIA/giphy.gif",
+  "https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif",
+  "https://media.giphy.com/media/5i7umUqAOYYEw/giphy.gif",
+  "https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif",
+  "https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif",
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [name, setName] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [compliment, setCompliment] = useState(compliments[0]);
+  const [gif, setGif] = useState(gifs[0]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const checkName = () => {
+    if (name.trim().toLowerCase() === "fairuz chalisa") {
+      setIsAuthorized(true);
+      setShowError(false);
+    } else {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
+    }
+  };
+
+  const generateCompliment = () => {
+    const randomCompliment =
+      compliments[Math.floor(Math.random() * compliments.length)];
+    const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
+    setCompliment(randomCompliment);
+    setGif(randomGif);
+  };
+
+  return (
+    <div className="relative flex items-center justify-center h-screen bg-gradient-to-br from-pink-500 to-purple-600 text-white">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-purple-600 opacity-80"></div>
+        <div className="absolute inset-0 flex justify-center items-center">
+          <div className="bg-white/10 backdrop-blur-lg rounded-full w-[800px] h-[800px] absolute animate-pulse"></div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </div>
+
+      {!isAuthorized ? (
+        <div className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center">
+          <h1 className="text-2xl font-bold mb-4 text-gray-800">
+            Siapa namamu? 📝
+          </h1>
+          <motion.input
+            type="text"
+            placeholder="Masukkan nama..."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={`w-full px-4 py-2 rounded-xl text-gray-900 focus:outline-none transition-all ${
+              showError
+                ? "border-2 border-red-500 bg-red-100"
+                : "border-2 border-gray-300 focus:border-pink-500"
+            }`}
+            animate={showError ? { x: [-10, 10, -10, 10, 0] } : {}}
+            transition={{ duration: 0.3 }}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <br />
+          <button
+            onClick={checkName}
+            className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-xl transition-all shadow-lg"
+          >
+            Masuk ❤️
+          </button>
+          {showError && (
+            <motion.p
+              className="text-red-600 font-semibold mt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              Maaf bukan kamu orang nya!
+            </motion.p>
+          )}
+        </div>
+      ) : (
+        <div className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center">
+          <motion.img
+            key={gif}
+            src={gif}
+            alt="Cute GIF"
+            className="w-40 mx-auto mb-4 rounded-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+          <motion.p
+            key={compliment}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-lg font-semibold text-gray-800"
+          >
+            {compliment}
+          </motion.p>
+
+          <button
+            onClick={generateCompliment}
+            className="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-xl transition-all shadow-lg"
+          >
+            Lagi?! 💕
+          </button>
+        </div>
+      )}
     </div>
   );
 }
