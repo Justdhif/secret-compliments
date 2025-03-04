@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 // Daftar pujian romantis
 const compliments = [
@@ -73,6 +74,7 @@ export default function Home() {
   const [showError, setShowError] = useState(false);
   const [compliment, setCompliment] = useState(compliments[0]);
   const [gif, setGif] = useState(gifs[0]);
+  const router = useRouter();
 
   const checkName = () => {
     if (name.trim().toLowerCase() === "fairuz chalisa") {
@@ -93,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative flex items-center justify-center h-screen bg-gradient-to-br from-pink-500 to-purple-600 text-white">
+    <div className="relative flex items-center justify-center h-screen bg-gradient-to-br from-pink-500 to-purple-600 text-white overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-400 to-purple-600 opacity-80"></div>
@@ -103,7 +105,13 @@ export default function Home() {
       </div>
 
       {!isAuthorized ? (
-        <div className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center"
+        >
           <h1 className="text-2xl font-bold mb-4 text-gray-800">
             Siapa namamu? 📝
           </h1>
@@ -121,12 +129,14 @@ export default function Home() {
             transition={{ duration: 0.3 }}
           />
           <br />
-          <button
+          <motion.button
             onClick={checkName}
             className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-xl transition-all shadow-lg"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
           >
             Masuk ❤️
-          </button>
+          </motion.button>
           {showError && (
             <motion.p
               className="text-red-600 font-semibold mt-2"
@@ -137,9 +147,15 @@ export default function Home() {
               Maaf bukan kamu orang nya!
             </motion.p>
           )}
-        </div>
+        </motion.div>
       ) : (
-        <div className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 flex flex-col items-center justify-center w-[90%] max-w-md p-6 bg-white text-gray-900 rounded-2xl shadow-2xl text-center"
+        >
           <motion.img
             key={gif}
             src={gif}
@@ -149,7 +165,6 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           />
-
           <motion.p
             key={compliment}
             initial={{ opacity: 0, y: -10 }}
@@ -159,14 +174,24 @@ export default function Home() {
           >
             {compliment}
           </motion.p>
-
-          <button
+          <motion.button
             onClick={generateCompliment}
             className="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-xl transition-all shadow-lg"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
           >
             Lagi?! 💕
-          </button>
-        </div>
+          </motion.button>
+
+          <motion.button
+            onClick={() => router.push("/notes")}
+            className="mt-4 w-full bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-xl transition-all shadow-lg transform hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+          >
+            Lihat Catatan 📖
+          </motion.button>
+        </motion.div>
       )}
     </div>
   );
